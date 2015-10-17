@@ -16,6 +16,17 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from rest_framework.urlpatterns import format_suffix_patterns
+from todolists import views
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^todolists/$', views.TODOListList.as_view()),
+    url(r'^todolists/(?P<pk>[0-9]+)/$', views.TODOListDetail.as_view()),
+    url(r'^task/$', views.TaskList.as_view()),
+    url(r'^task/(?P<pk>[0-9]+)/$', views.TaskDetail.as_view()),
+    url(r'^comment/$', views.CommentList.as_view()),
+    url(r'^comment/(?P<pk>[0-9]+)/$', views.CommentDetail.as_view()),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
