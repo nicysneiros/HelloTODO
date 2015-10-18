@@ -18,6 +18,10 @@ todolist.controller('TODOListCtrl', function ($scope, DataSrcTODOList) {
 		if(!todolist.title){
 			todolist.title = 'Undefined';
 		}
+		
+		DataSrcTODOList.saveTODOList(todolist).then(function(response){
+			console.log(response);	
+		})
 	}
 	
 })

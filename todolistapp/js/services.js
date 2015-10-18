@@ -6,6 +6,10 @@ todolist.factory('DataSrcTODOList', function($http) {
 	return {
 		getTODOLists: function (){
 			return $http.get(urlTODOList);
+		},
+		
+		saveTODOList: function (todolist) {
+			return $http.post(urlTODOList + '/', todolist);
 		}
 	}
 })

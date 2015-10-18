@@ -75,6 +75,8 @@ WSGI_APPLICATION = 'helloTODO.wsgi.application'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+APPEND_SLASH = True
+
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
