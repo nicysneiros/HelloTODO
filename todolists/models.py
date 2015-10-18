@@ -9,7 +9,7 @@ class TODOList(models.Model):
 		
 	
 class Task (models.Model):
-	todo_list_ref = models.ForeignKey(TODOList)
+	todo_list_ref = models.ForeignKey(TODOList, related_name='tasks')
 	description = models.CharField(max_length=500)
 	deadline = models.DateTimeField()
 	done = models.BooleanField(default=False)
@@ -20,7 +20,7 @@ class Task (models.Model):
 		
 	
 class Comment (models.Model):
-	task_ref = models.ForeignKey(Task)
+	task_ref = models.ForeignKey(Task, related_name='comments')
 	text = models.CharField(max_length=500)
 	
 	def __str__ (self):

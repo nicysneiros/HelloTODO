@@ -2,39 +2,46 @@
 
 <head>
 
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.css">
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
   <link rel="stylesheet" href="css/app.css">
   <meta name="viewport" content="initial-scale=1" />
 
-  <script data-require="angular.js@*" data-semver="2.0.0-alpha.31" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.3/angular.js"></script>
+  <!--<script data-require="angular.js@*" data-semver="2.0.0-alpha.31" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.3/angular.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.js"></script>
-  
+  -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.min.js"></script>
+  <script src="bower_components/angular-material/angular-material.min.js"></script>
+
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/services.js"></script>
-  
+
 </head>
 
 <body ng-app="todolist">
   <div ng-controller="TODOListCtrl">
     <div class="header">
     </div>
+    <div class="container-add-button">
+      <md-button class="md-fab md-primary md-button md-ink-ripple add-button" aria-label="Add TODOList" ng-click="addTODOList()"> + </md-button>
+    </div>
     <md-content class="md-padding">
-      <md-card>
+      <md-card ng-repeat="todo in todolists">
         <md-card-content>
-          <h2 class="md-title">TODO List</h2>
-          <div flex="50">
-          <md-checkbox md-no-ink aria-label="task1" class="md-primary">
-          Task 1
-          </md-checkbox>
-          </div>
-          <div flex="50">
-          <md-checkbox md-no-ink aria-label="task2" class="md-primary">
-          Task 2
-          </md-checkbox>
+          <h2 class="md-title" ng-hide="todo.noTitle">{{todo.title}}</h2>
+          <md-input-container flex ng-show="todo.noTitle">
+            <label>TODO List Title</label>
+            <input ng-model="todo.title" autofocus ng-blur="saveTODOList(todo)">
+          </md-input-container>
+          <div flex="50" ng-repeat="task in todo.tasks">
+            <md-checkbox md-no-ink ng-model="task" class="md-primary">
+              {{task.description}}
+            </md-checkbox>
           </div>
         </md-card-content>
       </md-card>

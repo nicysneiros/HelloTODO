@@ -6,3 +6,23 @@
     height: 0;
     padding-top: 20.84%;
 }
+
+.add-button{
+    background-color: #EA563B !important;
+    font-size: 24px;
+    color: white;
+}
+
+.container-add-button {
+    text-align: right;
+    margin-right: 30px;
+    margin-top: -35px;
+}
+
+.grey {
+    color: #636363
+}
+/*.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }*/
