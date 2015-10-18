@@ -22,6 +22,32 @@
 .grey {
     color: #636363
 }
+
+.orange{
+    background-color: #EA563B !important;
+    color: white !important;
+}
+
+.blue {
+    color: #00A9D4 !important;
+}
+
+.right{
+    text-align: right;
+}
+
+md-checkbox.md-checked .md-icon {
+ background-color: #EA563B;
+}
+
+.deadline {
+    color: #636363;
+    font-size: 14px;
+}
+
+.small {
+    font-size: 12px;
+}
 /*.material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }
 .material-icons.md-36 { font-size: 36px; }

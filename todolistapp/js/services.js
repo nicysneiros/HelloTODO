@@ -1,6 +1,7 @@
 
 var baseURL = 'http://127.0.0.1:8000/'
 var urlTODOList = baseURL + 'todolists'
+var urlTask = baseURL + 'task'
 
 todolist.factory('DataSrcTODOList', function($http) {
 	return {
@@ -18,6 +19,14 @@ todolist.factory('DataSrcTODOList', function($http) {
 		
 		deleteTODOList: function (id){
 			return $http.delete(urlTODOList + '/' + id + '/');
+		},
+		
+		saveTask: function (task) {
+			if(task.id){
+				return $http.put(urlTask + '/' + task.id + '/', task);
+			} else {
+				return $http.post(urlTask + '/', task);
+			}
 		}
 	}
 })
