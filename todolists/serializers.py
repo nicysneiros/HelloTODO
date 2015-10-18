@@ -6,7 +6,7 @@ class CommentReadSerializer (serializers.ModelSerializer):
 	
 	class Meta:
 		model = Comment
-		fields = ('text',)
+		fields = ('text','id')
 
 
 class TaskReadSerializer (serializers.ModelSerializer):
@@ -14,7 +14,7 @@ class TaskReadSerializer (serializers.ModelSerializer):
 	
 	class Meta:
 		model = Task
-		fields = ('description', 'deadline', 'done', 'order_list', 'comments')
+		fields = ('description', 'deadline', 'done', 'order_list', 'comments','id')
 	
 
 class TODOListReadSerializer (serializers.ModelSerializer):
@@ -22,7 +22,7 @@ class TODOListReadSerializer (serializers.ModelSerializer):
 	
 	class Meta:
 		model = TODOList
-		fields = ('title', 'tasks')
+		fields = ('title', 'tasks','id')
 		
 
 # Serializers Classes for write operations

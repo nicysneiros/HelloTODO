@@ -10,6 +10,10 @@ todolist.factory('DataSrcTODOList', function($http) {
 		
 		saveTODOList: function (todolist) {
 			return $http.post(urlTODOList + '/', todolist);
+		},
+		
+		deleteTODOList: function (id){
+			return $http.delete(urlTODOList + '/' + id + '/');
 		}
 	}
 })

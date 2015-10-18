@@ -2,7 +2,7 @@
 
 <head>
 
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.css">
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
   <link rel="stylesheet" href="css/app.css">
   <meta name="viewport" content="initial-scale=1" />
@@ -25,19 +25,28 @@
 
 <body ng-app="todolist">
   <div ng-controller="TODOListCtrl">
-    <div class="header">
-    </div>
+    
+    <div class="header"></div>
+    
     <div class="container-add-button">
       <md-button class="md-fab md-primary md-button md-ink-ripple add-button" aria-label="Add TODOList" ng-click="addTODOList()"> + </md-button>
     </div>
+    
     <md-content class="md-padding">
+      
       <md-card ng-repeat="todo in todolists">
         <md-card-content>
-          <h2 class="md-title" ng-hide="todo.noTitle">{{todo.title}}</h2>
-          <md-input-container flex ng-show="todo.noTitle">
-            <label>TODO List Title</label>
-            <input ng-model="todo.title" autofocus ng-blur="saveTODOList(todo)">
-          </md-input-container>
+          <div layout="row">
+            <div flex="90" ng-hide="todo.noTitle" ng-click="todo.noTitle = true"><h2 class="md-title">{{todo.title}}</h2></div>
+            <div flex="90" ng-show="todo.noTitle">
+              <md-input-container flex>
+                <label>TODO List Title</label>
+                <input ng-model="todo.title" autofocus ng-blur="saveTODOList(todo)">
+              </md-input-container>
+            </div>
+            <div flex="10"><md-button class="grey" ng-click="deleteTODOList(todo)">X</md-button></div>
+          </div>
+          
           <div flex="50" ng-repeat="task in todo.tasks">
             <md-checkbox md-no-ink ng-model="task" class="md-primary">
               {{task.description}}
@@ -45,6 +54,7 @@
           </div>
         </md-card-content>
       </md-card>
+      
     </md-content>
   </div>
 </body>

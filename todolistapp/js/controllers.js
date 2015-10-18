@@ -1,5 +1,5 @@
 
-todolist.controller('TODOListCtrl', function ($scope, DataSrcTODOList) {
+todolist.controller('TODOListCtrl', function ($scope, $filter, DataSrcTODOList) {
 
 	DataSrcTODOList.getTODOLists().then(function (response) {
 		console.log(response);
@@ -20,8 +20,22 @@ todolist.controller('TODOListCtrl', function ($scope, DataSrcTODOList) {
 		}
 		
 		DataSrcTODOList.saveTODOList(todolist).then(function(response){
-			console.log(response);	
+			var newTodolist = response.data;
+			for (var i = 0; i < $scope.todolists.length; i++){
+				if ($scope.todolists[i].title === todolist.title){
+					$scope.todolists[i] = newTodolist;
+				}
+			}
+			console.log(response);
+			console.log($scope.todolists);	
 		})
 	}
 	
+	$scope.deleteTODOList = function (todolist) {
+		$scope.todolists = $filter('filter')($scope.todolists, {id: '!' + todolist.id})
+		
+		DataSrcTODOList.deleteTODOList(todolist.id).then(function(response) {
+			console.log(response);
+		})
+	}
 })
