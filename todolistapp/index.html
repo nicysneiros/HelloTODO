@@ -55,18 +55,20 @@
 
 
           <div ng-repeat="task in todo.tasks">
-            <div layout="row">
-              <md-checkbox flex="50" md-no-ink ng-model="task.done" ng-change="checkTask(task)">
-                {{task.description}}
-              </md-checkbox>
-              <div flex="30">
+            <div layout="row" ng-mouseenter="task.showButtons = true" ng-mouseleave="task.showButtons = false">
+              <div flex="50">
+                <md-checkbox md-no-ink ng-model="task.done" ng-change="checkTask(task)">
+                  {{task.description}}
+                </md-checkbox>
+              </div>
+              <div flex="30" class="align-center">
                 <span class="deadline"><i>{{task.deadline | date: 'dd/MM/yyyy'}}</i></span>
               </div>
               <div flex="10">
-                <md-button class="blue small">Edit</md-button>
+                <md-button ng-show="task.showButtons" class="blue small">Edit</md-button>
               </div>
               <div flex="10">
-                <md-button class="grey small">X</md-button>
+                <md-button ng-show="task.showButtons" class="grey small" ng-click="deleteTask(todo, task)">X</md-button>
               </div>
             </div>
           </div>

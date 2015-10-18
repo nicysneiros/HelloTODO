@@ -45,6 +45,10 @@ md-checkbox.md-checked .md-icon {
     font-size: 14px;
 }
 
+.align-center{
+    display: flex;
+    align-items: center;
+}
 .small {
     font-size: 12px;
 }

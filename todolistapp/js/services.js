@@ -27,6 +27,10 @@ todolist.factory('DataSrcTODOList', function($http) {
 			} else {
 				return $http.post(urlTask + '/', task);
 			}
+		},
+		
+		deleteTask: function (id){
+			return $http.delete(urlTask+ '/' + id + '/');
 		}
 	}
 })

@@ -66,4 +66,18 @@ todolist.controller('TODOListCtrl', function ($scope, $filter, DataSrcTODOList) 
 			console.log(response);
 		})
 	}
+	
+	$scope.deleteTask = function(todolist, task){
+		var tasks = $filter('filter')(todolist.tasks, {id: '!' + task.id});
+		
+		for (var i = 0; i < $scope.todolists.length; i++){
+			if($scope.todolists[i].id === todolist.id){
+				$scope.todolists[i].tasks = tasks;
+			}
+		}
+		
+		DataSrcTODOList.deleteTask(task.id).then(function(response) {
+			console.log(response);
+		})
+	}
 })
