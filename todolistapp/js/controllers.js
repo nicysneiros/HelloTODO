@@ -20,10 +20,13 @@ todolist.controller('TODOListCtrl', function ($scope, $filter, DataSrcTODOList) 
 		}
 		
 		DataSrcTODOList.saveTODOList(todolist).then(function(response){
-			var newTodolist = response.data;
-			for (var i = 0; i < $scope.todolists.length; i++){
-				if ($scope.todolists[i].title === todolist.title){
-					$scope.todolists[i] = newTodolist;
+			
+			if (!todolist.id){
+				var newTodolist = response.data;
+				for (var i = 0; i < $scope.todolists.length; i++){
+					if ($scope.todolists[i].title === todolist.title){
+						$scope.todolists[i] = newTodolist;
+					}
 				}
 			}
 			console.log(response);

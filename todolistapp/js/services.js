@@ -9,7 +9,11 @@ todolist.factory('DataSrcTODOList', function($http) {
 		},
 		
 		saveTODOList: function (todolist) {
-			return $http.post(urlTODOList + '/', todolist);
+			if(todolist.id){
+				return $http.put(urlTODOList + '/' + todolist.id + '/', todolist);
+			} else {
+				return $http.post(urlTODOList + '/', todolist);
+			}
 		},
 		
 		deleteTODOList: function (id){
