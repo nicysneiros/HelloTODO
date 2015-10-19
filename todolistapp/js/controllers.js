@@ -43,19 +43,26 @@ todolist.controller('TODOListCtrl', function ($scope, $filter, DataSrcTODOList) 
 	}
 	
 	$scope.addTask = function(todolist, task) {
-		task.todolist = todolist.id;
-		task.order_list = todolist.tasks.length + 1;
-		task.done = false;
+		if(!task.id){
+			task.todolist = todolist.id;
+			task.order_list = todolist.tasks.length + 1;
+			task.done = false;
+		}
 		
 		DataSrcTODOList.saveTask(task).then(function(response) {
-			var newTask = response.data
-			task.add = null;
+			task.editting = false;
 			
-			for(var i = 0; i < $scope.todolists.length; i++){
-				if($scope.todolists[i].id === newTask.todolist){
-					$scope.todolists[i].tasks.push(newTask);
+			if (!task.id){
+				var newTask = response.data
+				task.add = null;
+				
+				for(var i = 0; i < $scope.todolists.length; i++){
+					if($scope.todolists[i].id === newTask.todolist){
+						$scope.todolists[i].tasks.push(newTask);
+					}
 				}
 			}
+			
 			console.log(response);
 		})
 	}
