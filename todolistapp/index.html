@@ -54,21 +54,26 @@
 
 
           <div ng-repeat="task in todo.tasks">
-            <div layout="row" ng-hide="task.editting" ng-mouseenter="task.showButtons = true" ng-mouseleave="task.showButtons = false">
-              <div flex="50">
-                <md-checkbox md-no-ink ng-model="task.done" ng-change="checkTask(task)">
-                  {{task.description}}
-                </md-checkbox>
+            <div ng-hide="task.editting" ng-mouseenter="task.showButtons = true" ng-mouseleave="task.showButtons=false">
+              <md-checkbox md-no-ink ng-model="task.done" ng-change="checkTask(task)">
+                {{task.description}}
+              </md-checkbox>
+            
+              <div layout="row" class="task-line-height" ng-show="task.showButtons" >  
+                <div flex="50" class="align-center">
+                  <span class="deadline"><i>deadline: {{task.deadline | date: 'dd/MM/yyyy'}}</i></span>
+                </div>
+                <div flex="30" class="align-center">
+                  <span class="deadline"><i>{{task.comments.length}} comments</i></span>
+                </div>
+                <div flex="10">
+                  <md-button class="blue small task-button-height" ng-click="task.editting = true">Edit</md-button>
+                </div>
+                <div flex="10">
+                  <md-button class="grey small task-button-height" ng-click="deleteTask(todo, task)">X</md-button>
+                </div>
               </div>
-              <div flex="30" class="align-center">
-                <span class="deadline"><i>{{task.deadline | date: 'dd/MM/yyyy'}}</i></span>
-              </div>
-              <div flex="10">
-                <md-button ng-show="task.showButtons" class="blue small" ng-click="task.editting = true">Edit</md-button>
-              </div>
-              <div flex="10">
-                <md-button ng-show="task.showButtons" class="grey small" ng-click="deleteTask(todo, task)">X</md-button>
-              </div>
+            
             </div>
 
             <div ng-show="task.editting">

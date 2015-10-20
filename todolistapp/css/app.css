@@ -52,6 +52,15 @@ md-checkbox.md-checked .md-icon {
 .small {
     font-size: 12px;
 }
+
+.task-line-height{
+    min-height: 32px;
+}
+
+.task-button-height{
+    min-height: 30px;
+    line-height: 30px;
+}
 /*.material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }
 .material-icons.md-36 { font-size: 36px; }

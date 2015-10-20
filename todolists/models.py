@@ -11,7 +11,7 @@ class TODOList(models.Model):
 class Task (models.Model):
 	todolist = models.ForeignKey(TODOList, related_name='tasks')
 	description = models.CharField(max_length=500)
-	deadline = models.DateTimeField()
+	deadline = models.DateTimeField(null=True)
 	done = models.BooleanField(default=False)
 	order_list = models.IntegerField()
 	
