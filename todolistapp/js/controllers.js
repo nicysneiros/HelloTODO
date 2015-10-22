@@ -1,7 +1,8 @@
 
-todolist.controller('TODOListCtrl', function ($scope, $filter, DataSrcTODOList) {
-
-	DataSrcTODOList.getTODOLists().then(function (response) {
+todolist.controller('TODOListCtrl', function ($scope, $filter, DataSrcTODOList, DataSrcUser) {
+	var accessToken = DataSrcUser.getAccessToken();
+	
+	DataSrcTODOList.getTODOLists(accessToken).then(function (response) {
 		console.log(response);
 		$scope.todolists = response.data;
 	})
@@ -19,7 +20,7 @@ todolist.controller('TODOListCtrl', function ($scope, $filter, DataSrcTODOList) 
 			todolist.title = 'Undefined';
 		}
 		
-		DataSrcTODOList.saveTODOList(todolist).then(function(response){
+		DataSrcTODOList.saveTODOList(todolist, accessToken).then(function(response){
 			
 			if (!todolist.id){
 				var newTodolist = response.data;
@@ -37,7 +38,7 @@ todolist.controller('TODOListCtrl', function ($scope, $filter, DataSrcTODOList) 
 	$scope.deleteTODOList = function (todolist) {
 		$scope.todolists = $filter('filter')($scope.todolists, {id: '!' + todolist.id})
 		
-		DataSrcTODOList.deleteTODOList(todolist.id).then(function(response) {
+		DataSrcTODOList.deleteTODOList(todolist.id, accessToken).then(function(response) {
 			console.log(response);
 		})
 	}
@@ -49,7 +50,7 @@ todolist.controller('TODOListCtrl', function ($scope, $filter, DataSrcTODOList) 
 			task.done = false;
 		}
 		
-		DataSrcTODOList.saveTask(task).then(function(response) {
+		DataSrcTODOList.saveTask(task, accessToken).then(function(response) {
 			task.editting = false;
 			
 			if (!task.id){
@@ -69,7 +70,7 @@ todolist.controller('TODOListCtrl', function ($scope, $filter, DataSrcTODOList) 
 	
 	$scope.checkTask = function(task){
 		//task.done = !task.done;
-		DataSrcTODOList.saveTask(task).then(function(response) {
+		DataSrcTODOList.saveTask(task, accessToken).then(function(response) {
 			console.log(response);
 		})
 	}
@@ -83,8 +84,31 @@ todolist.controller('TODOListCtrl', function ($scope, $filter, DataSrcTODOList) 
 			}
 		}
 		
-		DataSrcTODOList.deleteTask(task.id).then(function(response) {
+		DataSrcTODOList.deleteTask(task.id, accessToken).then(function(response) {
 			console.log(response);
 		})
 	}
-})
+});
+
+todolist.controller('UserCtrl', function ($scope, DataSrcUser) {
+	$scope.app = {};
+	var accessToken = DataSrcUser.getAccessToken();
+	if(accessToken){
+		$scope.app.userLoggedIn = true;
+	}
+	
+	$scope.loginFacebook = function () {
+		FB.login(function(response) {
+			if(response.status == 'connected'){
+				var facebookAccessToken = response.authResponse.accessToken;
+				
+				DataSrcUser.getExternalAccessToken(facebookAccessToken, 'facebook').then(function(response){
+					console.log(response);
+					var accessToken = response.data.access_token
+					DataSrcUser.setAccessToken(accessToken);
+					$scope.app.userLoggedIn = true;
+				})
+			}
+		}, {scope: 'public_profile,email' })
+	}
+});

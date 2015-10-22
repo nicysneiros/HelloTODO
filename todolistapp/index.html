@@ -26,108 +26,180 @@
 </head>
 
 <body ng-app="todolist">
-  <div ng-controller="TODOListCtrl">
+  <!--Loading Facebook SDK-->
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '728026247303158',
+        xfbml      : true,
+        version    : 'v2.5'
+      });
+    };
+  
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "http://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
 
-    <div class="header"></div>
+  <div class="header"></div>
 
-    <div class="container-add-button">
-      <md-button class="md-fab md-primary md-button md-ink-ripple add-button" aria-label="Add TODOList" ng-click="addTODOList()">+</md-button>
+  <div ng-controller="UserCtrl">
+    <div ng-hide="app.userLoggedIn" class="facebook-login">
+      <h1>Welcome!</h1>
+      <md-button class="md-raised md-primary facebook-login-button" ng-click="loginFacebook()">Facebook Login</md-button>
     </div>
+    <div ng-if="app.userLoggedIn === true">
+      <div ng-controller="TODOListCtrl">
 
-    <md-content class="md-padding">
+        <!--Button to add new todolist-->
+        <div class="container-add-button">
+          <md-button class="md-fab md-primary md-button md-ink-ripple add-button" aria-label="Add TODOList" ng-click="addTODOList()">+</md-button>
+        </div>
 
-      <md-card ng-repeat="todo in todolists">
-        <md-card-content>
-          <div layout="row">
-            <div flex="90" ng-hide="todo.noTitle" ng-click="todo.noTitle = true">
-              <h2 class="md-title">{{todo.title}}</h2></div>
-            <div flex="90" ng-show="todo.noTitle">
-              <md-input-container flex>
-                <label>TODO List Title</label>
-                <input ng-model="todo.title" autofocus ng-blur="saveTODOList(todo)">
-              </md-input-container>
-            </div>
-            <div flex="10">
-              <md-button class="grey" ng-click="deleteTODOList(todo)">X</md-button>
-            </div>
-          </div>
+        <md-content class="md-padding">
 
+          <!--List of todolists-->
+          <md-card ng-repeat="todo in todolists">
+            <md-card-content>
 
-          <div ng-repeat="task in todo.tasks">
-            <div ng-hide="task.editting" ng-mouseenter="task.showButtons = true" ng-mouseleave="task.showButtons=false">
-              <md-checkbox md-no-ink ng-model="task.done" ng-change="checkTask(task)">
-                {{task.description}}
-              </md-checkbox>
-            
-              <div layout="row" class="task-line-height" ng-show="task.showButtons" >  
-                <div flex="50" class="align-center">
-                  <span class="deadline"><i>deadline: {{task.deadline | date: 'dd/MM/yyyy'}}</i></span>
-                </div>
-                <div flex="30" class="align-center">
-                  <span class="deadline"><i>{{task.comments.length}} comments</i></span>
-                </div>
-                <div flex="10">
-                  <md-button class="blue small task-button-height" ng-click="task.editting = true">Edit</md-button>
-                </div>
-                <div flex="10">
-                  <md-button class="grey small task-button-height" ng-click="deleteTask(todo, task)">X</md-button>
-                </div>
-              </div>
-            
-            </div>
-
-            <div ng-show="task.editting">
-              <fieldset class="standard">
-                <legend>New Task</legend>
-                <md-input-container flex>
-                  <label>Task Description</label>
-                  <input autofocus ng-model="task.description">
-                </md-input-container>
-                <div layout="row">
-                  <div flex="60">
-                    <md-datepicker ng-model="task.deadline"></md-datepicker>
-                  </div>
-                  <div class="right" flex="20">
-                    <md-button class="md-raised" ng-click="task.editting = false">Cancel</md-button>
-                  </div>
-                  <div class="right" flex="20">
-                    <md-button class="md-raised orange" ng-click="addTask(todo, task)">Save</md-button>
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-          </div>
-
-          <div ng-hide="todo.newTask.add" ng-click="todo.newTask.add = true">
-            <i class="grey">Add new task</i>
-          </div>
-
-          <div ng-show="todo.newTask.add">
-            <fieldset class="standard">
-              <legend>New Task</legend>
-              <md-input-container flex>
-                <label>Task Description</label>
-                <input autofocus ng-model="todo.newTask.description">
-              </md-input-container>
+              <!-------TITLE CONTAINER------->
               <div layout="row">
-                <div flex="60">
-                  <md-datepicker ng-model="todo.newTask.deadline" md-placeholder="Deadline"></md-datepicker>
+
+                <!--Title-->
+                <div flex="90">
+                  <!--If the todolist has a title, show it-->
+                  <div ng-hide="todo.noTitle" ng-click="todo.noTitle = true">
+                    <h2 class="md-title">{{todo.title}}</h2>
+                  </div>
+
+                  <!--If not, include a input so the user can type in the title-->
+                  <div ng-show="todo.noTitle">
+                    <md-input-container flex>
+                      <label>TODO List Title</label>
+                      <input ng-model="todo.title" autofocus ng-blur="saveTODOList(todo)">
+                    </md-input-container>
+                  </div>
                 </div>
-                <div class="right" flex="20">
-                  <md-button class="md-raised" ng-click="todo.newTask.add = false">Cancel</md-button>
-                </div>
-                <div class="right" flex="20">
-                  <md-button class="md-raised orange" ng-click="addTask(todo, todo.newTask)">Add</md-button>
+
+                <!--Button to delete the todolist-->
+                <div flex="10">
+                  <md-button class="grey" ng-click="deleteTODOList(todo)">X</md-button>
                 </div>
               </div>
-            </fieldset>
-          </div>
+              <!-------- END TITLE CONTAINER -------->
 
+              <!--------- TASKS CONTAINER ---------->
+              <div ng-repeat="task in todo.tasks">
 
-        </md-card-content>
-      </md-card>
+                <!--Show existing task in the todolist-->
+                <div ng-hide="task.editting" ng-mouseenter="task.showButtons = true" ng-mouseleave="task.showButtons=false">
 
-    </md-content>
+                  <!--Description of the task-->
+                  <md-checkbox md-no-ink ng-model="task.done" ng-change="checkTask(task)">
+                    {{task.description}}
+                  </md-checkbox>
+
+                  <!--Details and operations on the task-->
+                  <div layout="row" class="task-line-height" ng-show="task.showButtons">
+
+                    <!--Deadline-->
+                    <div flex="50" class="align-center">
+                      <span class="deadline"><i>deadline: {{task.deadline | date: 'dd/MM/yyyy'}}</i></span>
+                    </div>
+
+                    <!--Comments-->
+                    <div flex="30" class="align-center">
+                      <span class="deadline"><i>{{task.comments.length}} comments</i></span>
+                    </div>
+
+                    <!--Edit Task-->
+                    <div flex="10">
+                      <md-button class="blue small task-button-height" ng-click="task.editting = true">Edit</md-button>
+                    </div>
+
+                    <!--Delete Task-->
+                    <div flex="10">
+                      <md-button class="grey small task-button-height" ng-click="deleteTask(todo, task)">X</md-button>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <!--Editting task-->
+                <fieldset class="standard" ng-show="task.editting">
+                  <legend>New Task</legend>
+                  <!--Edit Description-->
+                  <md-input-container flex>
+                    <label>Task Description</label>
+                    <input autofocus ng-model="task.description">
+                  </md-input-container>
+
+                  <div layout="row">
+                    <!--Edit Deadline-->
+                    <div flex="60">
+                      <md-datepicker ng-model="task.deadline"></md-datepicker>
+                    </div>
+
+                    <!--Cancel editting-->
+                    <div class="right" flex="20">
+                      <md-button class="md-raised" ng-click="task.editting = false">Cancel</md-button>
+                    </div>
+
+                    <!--Save edited task-->
+                    <div class="right" flex="20">
+                      <md-button class="md-raised orange" ng-click="addTask(todo, task)">Save</md-button>
+                    </div>
+                  </div>
+                </fieldset>
+
+              </div>
+              <!--------- END TASKS CONTAINER ---------->
+
+              <!--Button to add new task-->
+              <div ng-hide="todo.newTask.add" ng-click="todo.newTask.add = true">
+                <i class="grey">Add new task</i>
+              </div>
+
+              <!--Add new task-->
+              <div ng-show="todo.newTask.add">
+                <fieldset class="standard">
+                  <legend>New Task</legend>
+
+                  <!--Task description-->
+                  <md-input-container flex>
+                    <label>Task Description</label>
+                    <input autofocus ng-model="todo.newTask.description">
+                  </md-input-container>
+
+                  <div layout="row">
+                    <!--Deadline-->
+                    <div flex="60">
+                      <md-datepicker ng-model="todo.newTask.deadline" md-placeholder="Deadline"></md-datepicker>
+                    </div>
+
+                    <!--Cancel adding new task-->
+                    <div class="right" flex="20">
+                      <md-button class="md-raised" ng-click="todo.newTask.add = false">Cancel</md-button>
+                    </div>
+
+                    <!--Save new task-->
+                    <div class="right" flex="20">
+                      <md-button class="md-raised orange" ng-click="addTask(todo, todo.newTask)">Add</md-button>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </md-card-content>
+          </md-card>
+
+        </md-content>
+      </div>
+    </div>
   </div>
 </body>
 

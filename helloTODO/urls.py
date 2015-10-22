@@ -13,20 +13,18 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import include, url
+from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 from rest_framework.urlpatterns import format_suffix_patterns
-from todolists import views
+from todolists import views, urls
 
 urlpatterns = [
+    url(r'', include('social.apps.django_app.urls', namespace='social')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^todolists/$', views.TODOListList.as_view()),
-    url(r'^todolists/(?P<pk>[0-9]+)/$', views.TODOListDetail.as_view()),
-    url(r'^task/$', views.TaskList.as_view()),
-    url(r'^task/(?P<pk>[0-9]+)/$', views.TaskDetail.as_view()),
-    url(r'^comment/$', views.CommentList.as_view()),
-    url(r'^comment/(?P<pk>[0-9]+)/$', views.CommentDetail.as_view()),
+    url(r'^todolists/', include(urls)),
+    url(r'^users/', include('users.urls')),
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+#urlpatterns = format_suffix_patterns(urlpatterns)

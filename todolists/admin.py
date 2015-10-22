@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
+'''
 from .models import TODOList, Task, Comment
 
 class CommentInline(admin.StackedInline):
@@ -22,3 +23,4 @@ class TODOListAdmin(admin.ModelAdmin):
 	
 	
 admin.site.register(TODOList, TODOListAdmin)
+'''

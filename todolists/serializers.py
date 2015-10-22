@@ -24,7 +24,7 @@ class TODOListReadSerializer (serializers.ModelSerializer):
 		model = TODOList
 		fields = ('title', 'tasks','id')
 		
-
+		
 # Serializers Classes for write operations
 class CommentWriteSerializer (serializers.ModelSerializer):
 	
@@ -44,4 +44,5 @@ class TODOListWriteSerializer (serializers.ModelSerializer):
 	
 	class Meta:
 		model = TODOList
-		fields = ('title',)
+		fields = ('title')
+		
