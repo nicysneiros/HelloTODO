@@ -92,10 +92,6 @@ todolist.controller('TODOListCtrl', function ($scope, $filter, DataSrcTODOList, 
 
 todolist.controller('UserCtrl', function ($scope, DataSrcUser) {
 	$scope.app = {};
-	var accessToken = DataSrcUser.getAccessToken();
-	if(accessToken){
-		$scope.app.userLoggedIn = true;
-	}
 	
 	$scope.loginFacebook = function () {
 		FB.login(function(response) {

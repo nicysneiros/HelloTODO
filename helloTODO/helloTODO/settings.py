@@ -100,7 +100,7 @@ APPEND_SLASH = True
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-'''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -117,6 +117,7 @@ DATABASES = {
  'HOST': 'ec2-54-225-199-108.compute-1.amazonaws.com'
  }
 }
+'''
 
 
 # Internationalization
