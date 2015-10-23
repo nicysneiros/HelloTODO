@@ -100,11 +100,22 @@ APPEND_SLASH = True
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+}
+'''
+DATABASES = {
+ 'default': {
+ 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+ 'NAME': 'd3nm3950liddl6', 
+ 'USER': 'ptnpyepapobmwj',
+ 'PASSWORD': 'JpcXvrol0x-uyIp_-gT4ewFIKA',
+ 'HOST': 'ec2-54-225-199-108.compute-1.amazonaws.com'
+ }
 }
 
 
